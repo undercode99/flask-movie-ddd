@@ -33,6 +33,7 @@ Is the layer in charge of the 3rd party, including the persistence layer for con
    ``` git clone https://github.com/undercode99/flask-movie-ddd.git ```
 
    Enter directory
+
    ``` cd clone flask-movie-ddd ```
 
 3. Create file .env and add config database and sekeret key
@@ -67,6 +68,7 @@ Is the layer in charge of the 3rd party, including the persistence layer for con
    ``` git clone flask-app-ddd.git ```
 
    Enter directory
+   
    ``` cd clone flask-app-ddd ```
 
 2. Create python env with virtualenv
