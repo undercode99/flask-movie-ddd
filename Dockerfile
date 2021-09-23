@@ -7,5 +7,3 @@ WORKDIR /app
 RUN pytest
 RUN python migrate.py
 RUN python generate_user.py
-RUN chmod +x ./gunicorn_entrypoint.sh
-ENTRYPOINT ["./gunicorn_entrypoint.sh"]
