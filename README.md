@@ -30,10 +30,10 @@ Is the layer in charge of the 3rd party, including the persistence layer for con
 ## Getting start with docker compose
 1. Clone this repository
 
-   ``` git clone flask-app-ddd.git ```
+   ``` git clone https://github.com/undercode99/flask-movie-ddd.git ```
 
    Enter directory
-   ``` cd clone flask-app-ddd ```
+   ``` cd clone flask-movie-ddd ```
 
 3. Create file .env and add config database and sekeret key
 
