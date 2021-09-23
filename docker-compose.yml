@@ -1,0 +1,21 @@
+version: '3'
+services:
+  app:
+    container_name: flask_app
+    restart: always
+    build: ./
+    ports:
+    - "5000:5000"
+    environment:
+      FLASK_DEBUG: 0
+      FLASK_ENV: production
+
+  
+  nginx:
+    container_name: nginx
+    restart: always
+    build: ./nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - app
