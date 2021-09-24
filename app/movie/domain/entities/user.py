@@ -25,7 +25,7 @@ class User(Entity):
         )
 
     def toDict(self):
-        return {"id": self.id, "fullname": self.fullname, "username": self.username, "email": self.email, "role": self.role.value, "password": self.password }
+        return {"id": self.id, "fullname": self.fullname, "username": self.username, "email": self.email, "role": self.role.value }
 
 
     def __repr__(self):
