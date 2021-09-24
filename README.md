@@ -1,12 +1,11 @@
-# Restfull Api Movie with Flask DDD
--------------
-**Documentation API Postman** : https://documenter.getpostman.com/view/17611308/UUxwD9rS#7129ccdd-028f-4e30-9484-35bd14f7fd6d 
+# Restful API Movie with Flask DDD
 
-**Link API** : https://movie-app.usman.id/api (Hosted on AWS)
+[![Build Status](https://app.travis-ci.com/undercode99/flask-movie-ddd.svg?branch=main)](https://app.travis-ci.com/undercode99/flask-movie-ddd)
 
-Simple app restfull api, build with python flask this app already scabelable with the versioning api, and separate layers
-Lst features:
-- Docker environment with compose intgrate gunicorn, and nginx web server
+Simple app restfull api, build with python flask this app already scabelable with the versioning api, and separate layers.
+
+Features:
+- Docker environment with compose integrate gunicorn, and nginx web server
 - Auth JWT
 - Role User
 - CRUD Movie
@@ -14,17 +13,34 @@ Lst features:
 
 This apps using the DDD (Domain Driven Design) approach, the application is divided into several parts including
 
-**1. Application layer**
+1. **Application layer**
 
-Inside this application layer is the layer that is responsible for receiving https requests, form validators, http responses, controllers
+   Inside this application layer is the layer that is responsible for receiving https requests, form validators, http responses, controllers
 
-**2. Domain layers**
+2. **Domain layers**
 
-In the domain layer is the layer that is responsible for the apps business, in the domain layer it is divided into services, abstract repositories, entities, and value objects.
+   In the domain layer is the layer that is responsible for the apps business, in the domain layer it is divided into services, abstract repositories, entities, and value objects.
 
-**3. Infrastructure layers**
+3. **Infrastructure layers**
 
-Is the layer in charge of the 3rd party, including the persistence layer for connection database or query
+   Is the layer in charge of the 3rd party, including the persistence layer for connection database or query
+
+
+## Information API
+
+- **Documentation API Postman** :
+   
+   https://documenter.getpostman.com/view/17611308/UUxwD9rS#7129ccdd-028f-4e30-9484-35bd14f7fd6d 
+
+- **Link Deployed API (Hosted on AWS)** : 
+
+   https://movie-app.usman.id/api 
+   
+   Auth login:
+
+    username : **admin**
+    
+    password : **admin123**
 
 
 ## Getting start with docker compose
