@@ -35,6 +35,13 @@ Is the layer in charge of the 3rd party, including the persistence layer for con
 - **Link Deployed API (Hosted on AWS)** : 
 
    https://movie-app.usman.id/api 
+   
+   Auth login:
+
+    username : **admin**
+    
+    password : **admin123**
+
 
 ## Getting start with docker compose
 1. Clone this repository
