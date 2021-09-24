@@ -4,12 +4,13 @@ from .test_user_service import user_admin, user_staff
 from app.movie.services.auth_services import check_user_password, check_authorization
 from app.movie.services.user_service import create_new_user
 
-
+""" Test check auth username,password"""
 def test_check_user_password():
     create_new_user(user_admin(),email="sampleemail11@gmail.com", username="sampleemail11", fullname="Mohamad Usman", password="doooiiid", role="staff")
     assert check_user_password(password="doooiiid", username="sampleemail11") != None
 
 
+""" Test check authorization role user """
 def test_check_authorization():
     assert check_authorization(user_admin(), "add_movie") == True
     assert check_authorization(user_admin(), "edit_movie") == True

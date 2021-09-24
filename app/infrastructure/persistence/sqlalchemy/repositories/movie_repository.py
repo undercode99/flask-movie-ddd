@@ -33,13 +33,6 @@ class MovieSqlAlchemyRepository(AbstractMovieRepository):
         rows: list = session.query(MovieModel).all()
         return [Movie.fromObject(row) for row in rows ]
 
-    @classmethod
-    def get(cls, entity_id: int) -> Movie:
-        result: MovieModel = session.query(MovieModel).get(entity_id)
-        if(result == None):
-            raise Exception("Movie not found with id {}".format(entity_id))
-        return Movie.fromObject(result)
-
     
     @classmethod
     def update(cls, movie: Movie) -> Movie:

@@ -19,23 +19,34 @@ def assert_obj_user_model(obj1, obj2):
     assert obj1.password == obj2.password
     assert obj1.role == obj2.role
 
+""" Test select user admin """
+def test_select_all_user_by_admin():
+    select_all_user_by_user(user_admin())
 
-def test_select_all_user():
+""" Test select user staff"""
+def test_select_all_user_by_staff():
+    with pytest.raises(ValueError):
+        select_all_user_by_user(user_staff())
+
+""" Test select user """
+def select_all_user_by_user(user_auth):
     create_new_user(user_admin(), email="nim4n136@gmail.com", username="nim4n136", fullname="Mohamad Usman", password="Uu6766s", role="admin")
     create_new_user(user_admin(), email="usman136@gmail.com", username="mohusman", fullname="Jhone", password="121211", role="staff")
-    users = select_all_user(user_admin())
+    users = select_all_user(user_auth)
     assert len(users) >= 2
 
 
+""" Test select first user """
 def test_first_data_user():
     user = create_new_user(user_admin(), email="dragon@gmail.com", username="dragon666", fullname="Mr Dragon", password="xxxx", role="staff")
     first = first_data_user(user_admin(), user.id)
     assert_obj_user_model(user, first)
 
-def test_update_data_user():
+""" Test update data user """
+def update_data_user_by_user(user_auth):
     user = create_new_user(user=user_admin(), email="update@gmail.com", username="updasd22", fullname="Mr xxx", password="xxxx", role="staff")
-    update_data_user(user=user_admin(), id=user.id, email="newupdate@gmail.com", username="xxxx", fullname="mantaps", password="", role="")
-    first = first_data_user(user_admin(), user.id)
+    update_data_user(user=user_auth, id=user.id, email="newupdate@gmail.com", username="xxxx", fullname="mantaps", password="", role="")
+    first = first_data_user(user_auth, user.id)
     
     # Check has edited
     assert first.email != user.email
@@ -45,6 +56,16 @@ def test_update_data_user():
     # Check not edited
     assert first.password == user.password
     assert first.role == user.role
+
+""" Test update data user by user admin"""
+def test_update_data_user_by_admin():
+    update_data_user_by_user(user_auth=user_admin())
+
+
+""" Test update data user by user staff"""
+def test_update_data_user_by_staff():
+    with pytest.raises(ValueError):
+        update_data_user_by_user(user_auth=user_staff())
 
 
 def test_user_must_unique():
