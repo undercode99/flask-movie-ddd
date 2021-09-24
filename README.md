@@ -5,7 +5,7 @@
 Simple app restfull api, build with python flask this app already scabelable with the versioning api, and separate layers.
 
 Features:
-- Docker environment with compose intgrate gunicorn, and nginx web server
+- Docker environment with compose integrate gunicorn, and nginx web server
 - Auth JWT
 - Role User
 - CRUD Movie
