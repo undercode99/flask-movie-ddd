@@ -13,17 +13,17 @@ Features:
 
 This apps using the DDD (Domain Driven Design) approach, the application is divided into several parts including
 
-**1. Application layer**
+1. **Application layer**
 
-Inside this application layer is the layer that is responsible for receiving https requests, form validators, http responses, controllers
+   Inside this application layer is the layer that is responsible for receiving https requests, form validators, http responses, controllers
 
-**2. Domain layers**
+2. **Domain layers**
 
-In the domain layer is the layer that is responsible for the apps business, in the domain layer it is divided into services, abstract repositories, entities, and value objects.
+   In the domain layer is the layer that is responsible for the apps business, in the domain layer it is divided into services, abstract repositories, entities, and value objects.
 
-**3. Infrastructure layers**
+3. **Infrastructure layers**
 
-Is the layer in charge of the 3rd party, including the persistence layer for connection database or query
+   Is the layer in charge of the 3rd party, including the persistence layer for connection database or query
 
 
 ## Information API
