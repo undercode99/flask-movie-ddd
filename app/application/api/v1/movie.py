@@ -68,7 +68,7 @@ def update_movie(user, id):
             return Response().badRequest(message="Failed to update movie", errorMessage=validate['message'])
         
         image_name = ""
-        storage = "./storage"
+        storage = "./../storage"
         if 'photo' in request.files:
             if request.files['photo'].filename != '':
                 if not os.path.exists(storage):
@@ -105,3 +105,4 @@ def delete_movie(user, id):
     except Exception as e:
         return Response().serverError(message="Failed to delete movie", errorMessage=str(e))
 
+ 
