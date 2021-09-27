@@ -14,24 +14,36 @@ class MovieSqlAlchemyRepository(AbstractMovieRepository):
 
     @classmethod
     def deleteById(cls, entity_id: int) -> Movie:
-        movie = MovieModel.query.filter_by(id=entity_id).one()
-        session.delete(movie)
-        session.commit()
-        return Movie.fromObject(movie)
+        try:
+            movie = MovieModel.query.filter_by(id=entity_id).one()
+            session.delete(movie)
+            session.commit()
+            return Movie.fromObject(movie)
+        except Exception as e:
+            session.rollback()
+            raise ValueError(str(e))
         
 
     @classmethod
     def add(cls, movie: Movie) -> Movie:
-        model = MovieModel(title=movie.title,description=movie.description, photo=movie.photo, release_date=movie.release_date, publish_date=movie.publish_date)
-        session.add(model)
-        session.commit()
-        session.flush()
-        return movie.fromObject(model)
+        try:
+            model = MovieModel(title=movie.title,description=movie.description, photo=movie.photo, release_date=movie.release_date, publish_date=movie.publish_date)
+            session.add(model)
+            session.commit()
+            session.flush()
+            return movie.fromObject(model)
+        except: 
+            session.rollback()
+            raise ValueError(str(e))
 
     @classmethod
     def all(cls) -> list:
-        rows: list = session.query(MovieModel).all()
-        return [Movie.fromObject(row) for row in rows ]
+        try:
+            rows: list = session.query(MovieModel).all()
+            return [Movie.fromObject(row) for row in rows ]
+        except Exception as e:
+            session.rollback()
+            raise ValueError(str(e))
 
     
     @classmethod
@@ -48,25 +60,32 @@ class MovieSqlAlchemyRepository(AbstractMovieRepository):
             update[MovieModel.photo] = movie.photo
         if movie.publish_date != "":
             update[MovieModel.publish_date] = movie.publish_date
+        try:
+            session.query(MovieModel)\
+            .filter(MovieModel.id  == movie.id )\
+            .update(update)
+            session.commit()
+            return cls.get(movie.id)
 
-        session.query(MovieModel)\
-        .filter(MovieModel.id  == movie.id )\
-        .update(update)
-        
-        session.commit()
+        except Exception as e:
+            session.rollback()
+            raise ValueError(str(e))
 
-        return cls.get(movie.id)
-    
     
     @classmethod
     def filterMovieByTitleReleasePublish(cls, title:str = None, release_date:date = None, publish_date:date = None) -> list:
-        query = session.query(MovieModel)
-        if title:
-            query = query.filter(MovieModel.title.like(f'%{title}%'))
-        if release_date:
-            query = query.filter(MovieModel.release_date == release_date)
-        if publish_date:
-            query = query.filter(MovieModel.publish_date == publish_date)
+        try:
+            query = session.query(MovieModel)
+            if title:
+                query = query.filter(MovieModel.title.like(f'%{title}%'))
+            if release_date:
+                query = query.filter(MovieModel.release_date == release_date)
+            if publish_date:
+                query = query.filter(MovieModel.publish_date == publish_date)
 
-        rows: list = query.all()
-        return [Movie.fromObject(row) for row in rows ]
+            rows: list = query.all()
+            return [Movie.fromObject(row) for row in rows ]
+        except Exception as e:
+            session.rollback()
+            raise ValueError(str(e))
+

@@ -19,6 +19,9 @@ ENGINE = create_engine(
     echo=True
 )
 
+
+print("Hellpppp")
+
 session = scoped_session(
     sessionmaker(
         autocommit=False,

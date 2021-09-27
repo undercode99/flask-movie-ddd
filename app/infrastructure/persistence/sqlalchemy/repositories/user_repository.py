@@ -7,89 +7,125 @@ class UserSqlAlchemyRepository(AbstractUserRepository):
 
     @classmethod
     def get(cls, entity_id: int) -> User:
-        result: UserModel = session.query(UserModel).get(entity_id)
-        if(result == None):
-            raise Exception("User not found with id {}".format(entity_id))
-        return User.fromObject(result)
+        try:
+            result: UserModel = session.query(UserModel).get(entity_id)
+            if(result == None):
+                raise Exception("User not found with id {}".format(entity_id))
+            return User.fromObject(result)
+        except Exception as e:
+            session.rollback()
+            raise ValueError(str(e))
 
     @classmethod
     def deleteById(cls, entity_id: int):
-        user = UserModel.query.filter_by(id=entity_id).one()
-        session.delete(user)
-        session.commit()
-        return User.fromObject(user)
+        try:
+            user = UserModel.query.filter_by(id=entity_id).one()
+            session.delete(user)
+            session.commit()
+            return User.fromObject(user)
+        except Exception as e:
+            session.rollback()
+            raise ValueError(str(e))
 
     
     @classmethod
     def add(cls, user: User) -> User:
-        models = UserModel(fullname=user.fullname, email=user.email, password=user.password, username=user.username, role=user.role.value)
-        session.add(models)
-        session.commit()
-        session.flush()
-        return User.fromObject(models)
+        try:
+            models = UserModel(fullname=user.fullname, email=user.email, password=user.password, username=user.username, role=user.role.value)
+            session.add(models)
+            session.commit()
+            session.flush()
+            return User.fromObject(models)
+        except Exception as e:
+            session.rollback()
+            raise ValueError(str(e))
 
     @classmethod
     def all(cls) -> list:
-        rows: list = session.query(UserModel).all()
-        return [User.fromObject(row) for row in rows ]
+        try:
+            rows: list = session.query(UserModel).all()
+            return [User.fromObject(row) for row in rows ]
+        except Exception as e:
+            session.rollback()
+            raise ValueError(str(e))
 
     @classmethod
     def update(cls, user: User) -> User:
-        update = {}
-        if user.email != "":
-            update[UserModel.email] = user.email
-        if user.password != "":
-            update[UserModel.password] = user.password
-        if user.fullname != "":
-            update[UserModel.fullname] = user.fullname
-        if user.username != "":
-            update[UserModel.username] = user.username
-        session.query(UserModel)\
-        .filter(UserModel.id  == user.id )\
-        .update(update)
-        session.commit()
-        return cls.get(user.id)
+        try:
+            update = {}
+            if user.email != "":
+                update[UserModel.email] = user.email
+            if user.password != "":
+                update[UserModel.password] = user.password
+            if user.fullname != "":
+                update[UserModel.fullname] = user.fullname
+            if user.username != "":
+                update[UserModel.username] = user.username
+            session.query(UserModel)\
+            .filter(UserModel.id  == user.id )\
+            .update(update)
+            session.commit()
+            return cls.get(user.id)
+        except Exception as e:
+            session.rollback()
+            raise ValueError(str(e))
 
     @classmethod
     def filterBy(cls, where) -> User:
-        result = session.query(UserModel).filter_by(**where).first()
-        if result is None:
-            return None
-        return User.fromObject(result)
+        try:
+            result = session.query(UserModel).filter_by(**where).first()
+            if result is None:
+                return None
+            return User.fromObject(result)
+        except Exception as e:
+            session.rollback()
+            raise ValueError(str(e))
 
     @classmethod
     def checkEmailMustUnique(cls, email: str, id:int = None) -> bool:
-        query = session.query(UserModel)
-        if id is None:
-            query = query.filter(UserModel.email == email)
-        else:
-            query = query.filter(UserModel.id != id, UserModel.email == email)
-        if query.first() is None:
-            return True
-        return None
+        try:
+            query = session.query(UserModel)
+            if id is None:
+                query = query.filter(UserModel.email == email)
+            else:
+                query = query.filter(UserModel.id != id, UserModel.email == email)
+            if query.first() is None:
+                return True
+            return None
+        except Exception as e:
+            session.rollback()
+            raise ValueError(str(e))
 
     @classmethod
     def checkUsernameMustUnique(cls, username: str, id:int = None) -> bool:
-        query = session.query(UserModel)
-        if id is None:
-            query = query.filter(UserModel.username == username)
-        else:
-            query = query.filter(UserModel.id != id, UserModel.username == username)
-        if query.first() is None:
-            return True
-        return None
+        try:
+            query = session.query(UserModel)
+            if id is None:
+                query = query.filter(UserModel.username == username)
+            else:
+                query = query.filter(UserModel.id != id, UserModel.username == username)
+            if query.first() is None:
+                return True
+            return None
+        except Exception as e:
+            session.rollback()
+            raise ValueError(str(e))
     
     @classmethod
     def filterByRoleAndLikeEmail(cls, role:str = None, email:str = None) -> list:
-        query = session.query(UserModel)
-        if email and role:
-            query = query.filter(UserModel.email.like(f'%{email}%'), UserModel.role == role)
-        elif role != None and email == None:
-            query = query.filter(UserModel.role == role)
-        elif email != None and role == None:
-            query = query.filter(UserModel.email.like(f'%{email}%'))
+        try:
+            query = session.query(UserModel)
+            if email and role:
+                query = query.filter(UserModel.email.like(f'%{email}%'), UserModel.role == role)
+            elif role != None and email == None:
+                query = query.filter(UserModel.role == role)
+            elif email != None and role == None:
+                query = query.filter(UserModel.email.like(f'%{email}%'))
 
-        rows: list = query.all()
-        return [User.fromObject(row) for row in rows ]
+            rows: list = query.all()
+            return [User.fromObject(row) for row in rows ]
+        except Exception as e:
+            session.rollback()
+            raise ValueError(str(e))
 
     
